@@ -4,14 +4,15 @@ using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Load environment variables from .env file
+DotNetEnv.Env.Load();
+
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Configuration.SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("Secrets.json");
-
-var mongoClient = new MongoClient(builder.Configuration.GetConnectionString("CommBank"));
+var mongoClient = new MongoClient(Environment.GetEnvironmentVariable("connection_string"));
 var mongoDatabase = mongoClient.GetDatabase("CommBank");
 
 IAccountsService accountsService = new AccountsService(mongoDatabase);
@@ -50,4 +51,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
