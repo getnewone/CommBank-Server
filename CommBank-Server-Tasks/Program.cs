@@ -91,7 +91,6 @@ static async Task SeedDatabaseAsync(IMongoDatabase database)
     } else {
         Console.WriteLine("Tags collection already seeded.");
     }
-
     var transactionsCollection = database.GetCollection<Transaction>("Transactions");
     if (await transactionsCollection.CountDocumentsAsync(Builders<Transaction>.Filter.Empty) == 0)
     {
@@ -135,5 +134,4 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-
 app.Run();
